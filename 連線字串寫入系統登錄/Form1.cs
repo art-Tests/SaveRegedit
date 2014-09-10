@@ -43,6 +43,7 @@ namespace 連線字串寫入系統登錄 {
         private void Form1_Load(object sender, EventArgs e) {
             button2.Enabled = false;
             button3.Enabled = false;
+            button5.Enabled = false;
         }
 
         private void button2_Click(object sender, EventArgs e) {
@@ -52,10 +53,12 @@ namespace 連線字串寫入系統登錄 {
                 conn.Open();
                 button2.Enabled = false;
                 button3.Enabled = true;
+                button5.Enabled = true;
                 SqlCommand cmd = new SqlCommand("select Convert(varchar(10),getdate(),120)", conn);
                 string rtn = "";
                 rtn = cmd.ExecuteScalar().ToString();
                 label3.Text = "連線中，系統日期:" + rtn;
+                
             }
             catch (Exception) {
                 label3.Text = "連線字串錯誤，請修正";
@@ -65,6 +68,7 @@ namespace 連線字串寫入系統登錄 {
         private void button3_Click(object sender, EventArgs e) {
             button3.Enabled = false;
             button2.Enabled = true;
+            button5.Enabled = false;
             conn.Close();
             label3.Text = "未連接";
         }
@@ -75,6 +79,11 @@ namespace 連線字串寫入系統登錄 {
 
         private void rdo2_CheckedChanged(object sender, EventArgs e) {
             textBox1.Text = "Data Source=127.0.0.1; Initial Catalog=KM; User ID=web; Password=web";
+        }
+
+        private void button5_Click(object sender, EventArgs e) {
+            DataTable dt = conn.GetSchema("Databases");
+            dataGridView1.DataSource = dt;
         }
 
 
